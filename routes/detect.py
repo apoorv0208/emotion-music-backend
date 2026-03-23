@@ -73,8 +73,9 @@ def detect_emotion():
         reshaped_face = np.reshape(normalized_face, (1, 48, 48, 1))
 
         # 5. Predict (verbose=0 saves memory)
-        predictions = model.predict(reshaped_face, verbose=0)
-        detected_emotion = emotion_labels[np.argmax(predictions)]
+        # 5. Predict (LIGHTWEIGHT SINGLE-IMAGE INFERENCE)
+        predictions = model(reshaped_face, training=False)
+        detected_emotion = emotion_labels[np.argmax(predictions[0])]
 
         # 6. FORCE MEMORY CLEANUP (Prevents the server from dying on the next picture)
         del nparr, frame, gray_frame, faces, face_roi, gray_face, resized_face, normalized_face, reshaped_face, predictions
