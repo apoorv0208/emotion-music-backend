@@ -23,8 +23,16 @@ emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutr
 # This is built right into OpenCV, no extra downloads needed!
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-@detect_bp.route('/analyze', methods=['POST'])
+@detect_bp.route('/analyze', methods=['POST', 'OPTIONS'])
 def detect_emotion():
+    # 🚨 Catch the browser's security check immediately!
+    if request.method == 'OPTIONS':
+        res = jsonify({"status": "CORS OK"})
+        res.headers.add('Access-Control-Allow-Origin', '*')
+        res.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        res.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        return res, 200
+    
     if model is None:
         return jsonify({"error": "AI Model not loaded on server."}), 500
 
