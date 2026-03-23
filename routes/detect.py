@@ -1,6 +1,6 @@
 import os
 # 🚨 STRICT TENSORFLOW MEMORY LIMITS (Must be at the very top)
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # Block TF warnings from eating memory
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' # Block TF warnings from eating memory
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1' # Force CPU only
 
 import tensorflow as tf
